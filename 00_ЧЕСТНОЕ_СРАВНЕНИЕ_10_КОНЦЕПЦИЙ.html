@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Сравнение 10 концепций кантователя</title>
+  <style>
+    :root {
+      --ink: #10242b;
+      --muted: #60747c;
+      --line: #cad5d9;
+      --paper: #f4f7f8;
+      --white: #fff;
+      --cyan: #00a9c1;
+      --yellow: #ffbf19;
+      --red: #dd4f4f;
+      --green: #178765;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font: 16px/1.42 Arial, Helvetica, sans-serif;
+    }
+    main { max-width: 1500px; margin: 0 auto; padding: 42px 36px 64px; }
+    .eyebrow {
+      color: var(--cyan);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+    h1 { margin: 10px 0 10px; max-width: 1050px; font-size: clamp(34px, 4vw, 64px); line-height: .98; }
+    .lead { max-width: 1050px; margin: 0 0 28px; color: var(--muted); font-size: 21px; }
+    .truth {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 22px;
+      align-items: center;
+      margin: 28px 0 34px;
+      padding: 24px 28px;
+      background: var(--ink);
+      color: var(--white);
+      border-left: 10px solid var(--yellow);
+    }
+    .truth strong { color: var(--yellow); font-size: 58px; line-height: 1; }
+    .truth p { margin: 0; font-size: 19px; }
+    h2 { margin: 38px 0 14px; font-size: 26px; }
+    .table-wrap { overflow-x: auto; background: var(--white); border: 1px solid var(--line); }
+    table { width: 100%; min-width: 1080px; border-collapse: collapse; }
+    th {
+      padding: 13px 12px;
+      color: var(--white);
+      background: var(--ink);
+      text-align: left;
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    td { padding: 14px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    tr:last-child td { border-bottom: 0; }
+    tr:hover td { background: #f2fbfc; }
+    .num { width: 46px; color: var(--cyan); font-size: 21px; font-weight: 900; }
+    .name { min-width: 205px; font-weight: 800; }
+    .small { color: var(--muted); font-size: 14px; }
+    .tag {
+      display: inline-block;
+      padding: 4px 8px;
+      border: 1px solid currentColor;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .main { color: var(--green); }
+    .reserve { color: #926a00; }
+    .archive { color: var(--red); }
+    .appendix { color: #4b6c9e; }
+    .families, .bottom {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .family, .panel { padding: 19px; background: var(--white); border: 1px solid var(--line); }
+    .family b, .panel b { display: block; margin-bottom: 7px; }
+    .family span, .panel p { color: var(--muted); }
+    .panel p { margin: 0; }
+    .panel.pick { border-top: 7px solid var(--yellow); }
+    .panel.keep { border-top: 7px solid var(--cyan); }
+    .panel.warn { border-top: 7px solid var(--red); }
+    .checks { margin: 0; padding: 0; list-style: none; }
+    .checks li { padding: 10px 0 10px 26px; border-bottom: 1px solid var(--line); position: relative; }
+    .checks li:last-child { border-bottom: 0; }
+    .checks li::before { content: "!"; position: absolute; left: 2px; color: var(--red); font-weight: 900; }
+    footer { margin-top: 34px; padding-top: 16px; color: var(--muted); border-top: 1px solid var(--line); font-size: 13px; }
+    @media (max-width: 850px) {
+      main { padding: 26px 18px 44px; }
+      .truth { grid-template-columns: 1fr; }
+      .families, .bottom { grid-template-columns: 1fr; }
+    }
+    @media print {
+      body { background: #fff; font-size: 11px; }
+      main { max-width: none; padding: 12mm; }
+      h1 { font-size: 34px; }
+      .lead { font-size: 15px; }
+      .truth { padding: 14px 18px; break-inside: avoid; }
+      .truth strong { font-size: 38px; }
+      .truth p { font-size: 14px; }
+      table { min-width: 0; }
+      th { font-size: 8px; }
+      td { padding: 8px 7px; }
+      .small { font-size: 9px; }
+      .tag { font-size: 8px; }
+      .family, .panel { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <div class="eyebrow">Кантователь сварного модуля · честное сравнение</div>
+  <h1>Чем реально отличаются 10 представленных вариантов</h1>
+  <p class="lead">Коротко: способ освобождения входа, способ захвата и вращения изделия, адаптация к длине и требования к фундаменту.</p>
+
+  <section class="truth">
+    <strong>10 ≠ 10</strong>
+    <p><b>В наборе 6 базовых архитектур.</b> Файлы 02, 06 и 10 — не новые машины, а настройка или ранняя редакция других вариантов. Файлы 03 и 04 — одна портальная архитектура с двумя способами открытия входа.</p>
+  </section>
+
+  <h2>Сравнение по существу</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>№</th>
+          <th>Концепция</th>
+          <th>Как держит и вращает</th>
+          <th>Как освобождает вход</th>
+          <th>Разная длина</th>
+          <th>Главное отличие / ограничение</th>
+          <th>Статус</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="num">01</td>
+          <td class="name">Узкие торцевые стойки</td>
+          <td>Две моноколонны, вертикальные каретки и торцевые планшайбы.</td>
+          <td>Ближняя стойка: сдвиг по X <b>или</b> распахивание примерно на 100°.</td>
+          <td>Дальняя стойка перемещается по Z, диапазон концепции 4–12 м.</td>
+          <td>Самая компактная базовая схема, свободные пол и потолок. Нужны расчёты устойчивости, захватов и габарита вращения.</td>
+          <td><span class="tag main">основная</span></td>
+        </tr>
+        <tr>
+          <td class="num">02</td>
+          <td class="name">Узкая распашная стойка</td>
+          <td>То же оборудование и та же геометрия, что в 01.</td>
+          <td>В 01 заранее выбран режим «распашная».</td>
+          <td>Как в 01.</td>
+          <td><b>Не самостоятельная концепция.</b> Это один из двух режимов варианта 01.</td>
+          <td><span class="tag archive">объединить с 01</span></td>
+        </tr>
+        <tr>
+          <td class="num">03</td>
+          <td class="name">Портальная, сдвиг по X</td>
+          <td>Два торцевых П-образных портала с планшайбами.</td>
+          <td>Ближний портал целиком уезжает по двум поперечным рельсам.</td>
+          <td>Дальний портал перемещается по Z.</td>
+          <td>Жёстче моноколонн, но тяжелее, шире и дороже; нужен точный возврат на силовые упоры.</td>
+          <td><span class="tag appendix">приложение</span></td>
+        </tr>
+        <tr>
+          <td class="num">04</td>
+          <td class="name">Портальная, распашная</td>
+          <td>Та же портальная база, что в 03.</td>
+          <td>Ближний П-портал целиком поворачивается на вертикальном шарнире.</td>
+          <td>Как в 03.</td>
+          <td>Нет длинного поперечного хода, но появляется большой сектор распахивания и тяжёлый шарнирный фундамент.</td>
+          <td><span class="tag appendix">приложение</span></td>
+        </tr>
+        <tr>
+          <td class="num">05</td>
+          <td class="name">Подъёмные центры</td>
+          <td>Две высокие стационарные стойки; головки опускаются, зажимают торцы, поднимают и вращают модуль.</td>
+          <td>Головки паркуются сверху, поэтому фронтальный проезд остаётся свободным.</td>
+          <td>В текущей визуализации не отработана.</td>
+          <td>Наиболее «станочная» и промышленная схема. Больше приводов, синхронизации и высота оборудования.</td>
+          <td><span class="tag reserve">техрезерв</span></td>
+        </tr>
+        <tr>
+          <td class="num">06</td>
+          <td class="name">Узкие стойки, предыдущая версия</td>
+          <td>Ранняя редакция моноколонн варианта 01.</td>
+          <td>Только сдвиг ближней стойки по X.</td>
+          <td>Интерфейс меняет стойку, но встроенный модуль остаётся 6,72 м.</td>
+          <td>Слабее и менее честно проработана, чем 01. Самостоятельной ценности нет.</td>
+          <td><span class="tag archive">архив</span></td>
+        </tr>
+        <tr>
+          <td class="num">07</td>
+          <td class="name">Оборотная процессная кассета</td>
+          <td>Модуль один раз фиксируется в жёсткой кассете; вращается уже кассета на торцевых цапфах.</td>
+          <td>Кассета вместе с изделием перемещается между постами.</td>
+          <td>В текущей схеме кассета рассчитана на один размер.</td>
+          <td>Сохраняет базирование между операциями, но резко увеличивает вращаемую массу и требует парка кассет.</td>
+          <td><span class="tag reserve">техрезерв</span></td>
+        </tr>
+        <tr>
+          <td class="num">08</td>
+          <td class="name">Фронтальная L-люлька</td>
+          <td>Модуль лежит в L-образной раме; вся люлька поворачивается гидроцилиндрами вокруг нижней продольной оси.</td>
+          <td>Фронтальный заезд по Z, тележка возвращается назад.</td>
+          <td>В текущей схеме фиксированная длина.</td>
+          <td>Нет верхнего портала и вертикального подъёма. Нужны большой боковой сектор, мощный шарнир и отдельная выдача после поворота.</td>
+          <td><span class="tag main">основная</span></td>
+        </tr>
+        <tr>
+          <td class="num">09</td>
+          <td class="name">Торцевые разъёмные кольца</td>
+          <td>Два кольца охватывают модуль и вращаются на четырёх нижних роликах.</td>
+          <td>Верхние части колец размыкаются для загрузки.</td>
+          <td>Потребуются сменные кольца или регулируемые связи.</td>
+          <td>Равномерная опора и понятная кинематика, но обязательны приямок, точный разъём колец и сложная строительная часть.</td>
+          <td><span class="tag main">основная</span></td>
+        </tr>
+        <tr>
+          <td class="num">10</td>
+          <td class="name">Независимые подъёмные центры, ранняя</td>
+          <td>Ранняя схема варианта 05: простые высокие порталы и длинные крестовые адаптеры.</td>
+          <td>Отдельная боковая выдача тележки.</td>
+          <td>Не отработана.</td>
+          <td>Менее зрелая компоновка 05; не решён удобный фронтальный проход и повторный захват.</td>
+          <td><span class="tag archive">архив</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Шесть реальных архитектур</h2>
+  <div class="families">
+    <div class="family"><b>1. Узкие моноколонны</b><span>01 + 02 + 06</span></div>
+    <div class="family"><b>2. Торцевые П-порталы</b><span>03 + 04</span></div>
+    <div class="family"><b>3. Подъёмные центры</b><span>05 + 10</span></div>
+    <div class="family"><b>4. Процессная кассета</b><span>07</span></div>
+    <div class="family"><b>5. Гидравлическая L-люлька</b><span>08</span></div>
+    <div class="family"><b>6. Разъёмные кольца</b><span>09</span></div>
+  </div>
+
+  <h2>Что оставить</h2>
+  <div class="bottom">
+    <section class="panel pick">
+      <b>Три максимально разные концепции</b>
+      <p><b>01</b> — торцевые моноколонны.<br><b>08</b> — нижняя L-люлька.<br><b>09</b> — разъёмные кольца.</p>
+    </section>
+    <section class="panel keep">
+      <b>Серьёзный технический резерв</b>
+      <p><b>05</b> — подъёмные центры.<br><b>07</b> — процессная кассета.<br><b>03/04</b> — портальные исполнения в приложении.</p>
+    </section>
+    <section class="panel warn">
+      <b>Не подавать как отдельные концепции</b>
+      <p><b>02</b> — режим варианта 01.<br><b>06</b> — старая версия 01.<br><b>10</b> — ранняя версия 05.</p>
+    </section>
+  </div>
+
+  <h2>Что пока не доказано</h2>
+  <ul class="checks">
+    <li><b>Грузоподъёмность 10 т:</b> ни один вариант ещё не подтверждён расчётом металлоконструкции, приводов, захватов, анкеров и фундамента.</li>
+    <li><b>Длины 8, 10 и 12 м:</b> в HTML используется одна GLB-модель длиной 6,72 м. В большинстве вариантов перемещается стойка или показывается габарит, но само изделие не меняется.</li>
+    <li><b>Габарит вращения:</b> оси около 2 м недостаточно считать автоматически «без приямка» для предельного сечения 4,2 × 3,6 м; нужен отдельный расчёт огибающей с технологическим зазором.</li>
+    <li><b>Производственный цикл:</b> пока не подтверждены время кантования, способ выдачи изделия после 90°, аварийное удержание, синхронизация двух приводов и безопасные зоны.</li>
+  </ul>
+
+  <footer>Рабочее сравнение концепций. Это компоновочный материал, не конструкторская документация и не подтверждение характеристик.</footer>
+</main>
+</body>
+</html>
